@@ -21,6 +21,14 @@ func printBoard(matrix [3][3]string) {
 	}
 }
 
+func move(matrix *[3][3]string, x int, y int) {
+	matrix[x][y] = "0"
+}
+
+func noWin(matrix [3][3]string) bool {
+	return true
+}
+
 func main() {
 	var matrix [3][3]string
 	intializeArray(&matrix)
@@ -29,6 +37,18 @@ func main() {
 	fmt.Printf("Match Board:\n")
 
 	printBoard(matrix)
-
-	fmt.Println("Player 1 move")
+	for noWin(matrix) {
+		fmt.Println("Player 1 move:")
+		var x int
+		var y int
+		fmt.Scan(&x)
+		fmt.Scan(&y)
+		move(&matrix, x, y)
+		printBoard(matrix)
+		fmt.Println("Player 2 move:")
+		fmt.Scan(&x)
+		fmt.Scan(&y)
+		move(&matrix, x, y)
+		printBoard(matrix)
+	}
 }
