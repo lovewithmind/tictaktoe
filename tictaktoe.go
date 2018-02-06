@@ -4,40 +4,52 @@ import (
 	"fmt"
 )
 
-func intializeArray(matrix *[3][3]string) {
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			matrix[i][j] = "X"
-		}
+func intializeArray(matrix *[9]string) {
+	for i := 0; i < 9; i++ {
+		matrix[i] = "X"
 	}
 }
 
-func printBoard(matrix [3][3]string) {
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			fmt.Printf(matrix[i][j])
+func printBoard(matrix [9]string) {
+	for i := 0; i < 9; i += 3 {
+		for j := i; j < i+3; j++ {
+			fmt.Printf("{" + matrix[j] + "}")
 		}
 		fmt.Printf("\n")
 	}
 }
 
-func move(matrix *[3][3]string, x int, y int) {
-	matrix[x][y] = "0"
+func move(matrix *[9]string, x int, y int) {
+	matrix[x] = "0"
 }
 
-func noWin(matrix [3][3]string) bool {
-	return true
+func isWin(matrix [9]string, c string) bool {
+	var win [8][3]int = [8][3]int{{0, 1, 2}, // Check first row.
+		{3, 4, 5}, // Check second Row
+		{6, 7, 8}, // Check third Row
+		{0, 3, 6}, // Check first column
+		{1, 4, 7}, // Check second Column
+		{2, 5, 8}, // Check third Column
+		{0, 4, 8}, // Check first Diagonal
+		{2, 4, 6}} // Check second Diagonal
+
+	for i := 0; i < 8; i++ {
+		if matrix[win[i][0]] == c {
+			return true
+		}
+	}
+	return false
 }
 
 func main() {
-	var matrix [3][3]string
+	var matrix [9]string
 	intializeArray(&matrix)
 
 	fmt.Printf("Starting a new Game!!\n")
 	fmt.Printf("Match Board:\n")
 
 	printBoard(matrix)
-	for noWin(matrix) {
+	for !isWin(matrix, "") {
 		fmt.Println("Player 1 move:")
 		var x int
 		var y int
